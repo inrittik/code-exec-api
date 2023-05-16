@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  code-exec-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/app/src
+    container_name: code-exec-app
+    expose:
+      - '3000'
+    ports:
+      - '3000:3000'
+    command: yarn dev
