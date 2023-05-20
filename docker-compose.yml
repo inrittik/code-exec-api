@@ -1,16 +1,21 @@
-version: '3.7'
-
 services:
   code-exec-app:
     build:
       context: .
       dockerfile: Dockerfile
-      target: base
     volumes:
-      - ./src:/app/src
+      - .:/app
     container_name: code-exec-app
     expose:
       - '3000'
     ports:
       - '3000:3000'
     command: yarn dev
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: code-exec-mongo
+    ports:
+      - '27017:27017'
