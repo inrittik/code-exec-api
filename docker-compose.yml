@@ -4,15 +4,16 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - ./:/app
+      - /app/node_modules
     container_name: code-exec-app
-    expose:
-      - '3000'
     ports:
       - '3000:3000'
     command: yarn dev
     depends_on:
       - mongo
+    env_file:
+      - .env.dev
 
   mongo:
     image: mongo
