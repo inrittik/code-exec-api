@@ -17,7 +17,7 @@ A free api for executing code in different programming languages (Still in devel
    
 4. Setup the env file
   ```sh
-   cp .env.example .env
+   cp .env.example .env.dev
    ```
 
 5. Start your docker container
