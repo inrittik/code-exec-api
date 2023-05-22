@@ -2,7 +2,7 @@ import { commandMap } from "./codeRunner";
 import util from "util";
 const exec = util.promisify(require("child_process").exec);
 
-const getVersion = async (language:string) => {
+const getInfo = async (language:string) => {
   const { compilerInfoCommand } = commandMap("", language);
 
   const { stdout } = await exec(compilerInfoCommand);
@@ -10,4 +10,4 @@ const getVersion = async (language:string) => {
   return stdout;
 };
 
-export { getVersion };
+export { getInfo };

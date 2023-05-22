@@ -6,6 +6,6 @@ dotenv.config({
 });
 
 export default {
-  DB_URI: process.env.DB_URI || "mongodb://mongo:27017/code-exec",
+  DB_URI: process.env.DB_URI || "mongodb://0.0.0.0:27017/code-exec",
   PORT: process.env.PORT || 3000,
 };

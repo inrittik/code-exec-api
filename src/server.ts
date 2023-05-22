@@ -1,9 +1,13 @@
-import express from "express";
+import express, { Response } from "express";
 import mongoose from "mongoose";
 import config from "./config";
-import { codeRunner, info } from "./services";
+import bodyParser from "body-parser";
+import { codeRunner, info, runCode } from "./services";
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Server working!!");
@@ -17,10 +21,30 @@ interface Ibody {
 app.get("/languages", async (req, res) => {
   let body: Ibody[] = [];
   for (const language of codeRunner.supportedLanguages) {
-    body.push({ language, info: await info.getVersion(language) });
+    body.push({ language, info: await info.getInfo(language) });
   }
   res.send(body);
 });
+
+const sendResponse = (res:Response, statusCode:number, body:any) => {
+  const timeStamp = Date.now();
+
+  res.status(statusCode).send({
+    timeStamp,
+    status: statusCode,
+    ...body,
+  });
+};
+
+app.post("/execute", async (req, res) => { 
+  try {
+    const output = await runCode(req.body);
+    sendResponse(res, 200, output);
+  } catch (err) {
+    console.log(err)
+    sendResponse(res, 500, err);
+  }
+})
 
 const PORT = config.PORT || 3000;
 
